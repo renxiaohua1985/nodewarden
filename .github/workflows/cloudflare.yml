@@ -23,8 +23,8 @@ jobs:
 
       - name: Deploy with Wrangler
         run: |
-          # 1. 强制在 Cloudflare 后台为该项目创建/锁定 JWT_SECRET 机密变量
-          npx wrangler secret put JWT_SECRET --text "${{ secrets.JWT_SECRET }}"
+          # 1. 采用新版 Wrangler 的管道输入语法强制同步 JWT_SECRET 机密变量
+          echo "${{ secrets.JWT_SECRET }}" | npx wrangler secret put JWT_SECRET
           
           # 2. 执行项目原有的 KV 模式部署指令
           npm run deploy:kv
