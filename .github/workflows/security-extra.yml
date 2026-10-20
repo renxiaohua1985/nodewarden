@@ -42,9 +42,6 @@ jobs:
       security-events: write
 
     with:
-      scan-args: |-
-        --recursive
-        ./
       upload-sarif: true
       fail-on-vuln: true
 
