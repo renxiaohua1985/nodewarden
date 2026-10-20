@@ -22,8 +22,12 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Deploy with Wrangler
-        run: npm run deploy:kv
+        run: |
+          # 1. 强制在 Cloudflare 后台为该项目创建/锁定 JWT_SECRET 机密变量
+          npx wrangler secret put JWT_SECRET --text "${{ secrets.JWT_SECRET }}"
+          
+          # 2. 执行项目原有的 KV 模式部署指令
+          npm run deploy:kv
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
